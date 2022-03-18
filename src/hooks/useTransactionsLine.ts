@@ -84,19 +84,6 @@ const useTransactionsLine = () => {
 
 export default useTransactionsLine
 
-/* const getPreviousMonday = () => {
-    var date = new Date()
-    var day = date.getDay()
-    var prevMonday = new Date()
-    if (date.getDay() == 0) {
-        prevMonday.setDate(date.getDate() - 7)
-    } else {
-        prevMonday.setDate(date.getDate() - (day - 1))
-    }
-
-    return prevMonday.getTime() / 1000
-} */
-
 const getCurrentLastWeek = () => {
     var date = new Date() /* initialize Date object */
 
