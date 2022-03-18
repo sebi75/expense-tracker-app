@@ -40,11 +40,3 @@ const getFirstMonthDay = () => {
 }
 
 export default useSumsMonth
-
-/* const validTemporalIncome = validIncome.filter(
-        (t) => t.fullDate.seconds > firstMonthDay
-    )
-
-    const validTemporalExpense = validExpense.filter(
-        (t) => t.fullDate.seconds > firstMonthDay
-    ) */
