@@ -16,7 +16,7 @@
 
 ### Written is Typescript
 
-### State Management with React ContextAPI, set up with reducer for the main actions and used for centralizing the apps state.
+### State Management initially made using the React Context API, then switched it to redux/toolkit.
 
 ### Using react-chartjs for the charts.
 
