@@ -1,7 +1,14 @@
-import { useContext, useState } from "react"
-import { ApplicationContext } from "../../context/Context"
-
 import { Link } from "react-router-dom"
+import { useState } from "react"
+
+import {
+    authWithPopup,
+    createAccountWithEmail,
+    signWithEmail,
+} from "../../firebase"
+
+import { useAppDispatch } from "../../redux/store"
+import { addUser } from "../../redux/reducers/userReducer"
 
 import { SignGoogleButton, SignButton } from "./Layouts/Layouts"
 import FailMessage from "../Dashboard/Alerts/Fail"
@@ -17,16 +24,13 @@ interface FormData {
 }
 
 export const Form: React.FC<FormProps> = ({ type }) => {
-    const {
-        signWithGooglePopup,
-        createAccountWithEmailHandler,
-        signWithEmailHandler,
-    } = useContext(ApplicationContext)
     const [formData, setFormData] = useState<FormData>(initialFormData)
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [error, setError] = useState<string>("")
 
-    const createWithEmail = () => {
+    const dispatch = useAppDispatch()
+
+    const createWithEmail = async () => {
         const { password, confirmPassword, email } = formData
         if (
             password === confirmPassword &&
@@ -34,19 +38,36 @@ export const Form: React.FC<FormProps> = ({ type }) => {
             email.length > 5
         ) {
             setIsLoading(true)
-            createAccountWithEmailHandler(email, password, setError)
+            const user = await createAccountWithEmail(email, password, setError)
+            if (user) {
+                setIsLoading(false)
+                dispatch(addUser(user))
+            }
         } else {
             setError("Password must be over 5 characters")
         }
     }
 
-    const signInWithEmail = () => {
+    const signInWithEmail = async () => {
         const { password, email } = formData
         if (password.length > 5 && email.length > 5) {
             setIsLoading(true)
-            signWithEmailHandler(email, password, setError)
+            const user = await signWithEmail(email, password, setError)
+            if (user) {
+                setIsLoading(false)
+                dispatch(addUser(user))
+            }
         } else {
             setError("Password must be over 5 characters")
+        }
+    }
+
+    const authWithPopupHandler = async () => {
+        setIsLoading(true)
+        const user = await authWithPopup()
+        if (user) {
+            setIsLoading(false)
+            dispatch(addUser(user))
         }
     }
 
@@ -124,7 +145,7 @@ export const Form: React.FC<FormProps> = ({ type }) => {
                 isLoading={isLoading}
             />
 
-            <SignGoogleButton signWithGooglePopup={signWithGooglePopup} />
+            <SignGoogleButton signWithGooglePopup={authWithPopupHandler} />
             {/* Conditional find */}
             {type === "Signup" ? (
                 <div className="font-bold text-base mt-[0.7rem] flex text-white">

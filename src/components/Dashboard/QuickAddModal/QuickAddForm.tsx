@@ -13,7 +13,9 @@ import { idGen } from "../../../utils/idGen"
 import formatDate from "../../../utils/formatDate"
 
 import { useAppDispatch } from "../../../redux/store"
+import { useSelector } from "react-redux"
 import { addTransaction } from "../../../redux/reducers/transactionsReducer"
+import { addTransactionToDb } from "../../../firebase"
 
 const initialState: Transaction = {
     id: idGen(),
@@ -34,6 +36,7 @@ const QuickAddForm: React.FC<QuickAddFormProps> = ({ setIsModalOpen }) => {
     const [error, setError] = useState(false)
 
     const dispatch = useAppDispatch()
+    const user = useSelector((state: any) => state.user.user)
 
     const createTransaction = () => {
         const { category, type, amount, date } = formData
@@ -49,6 +52,7 @@ const QuickAddForm: React.FC<QuickAddFormProps> = ({ setIsModalOpen }) => {
                 fullDate: new Date(dateObject),
             }
             dispatch(addTransaction(transaction))
+            addTransactionToDb(user.id, transaction)
 
             setFormData(initialState)
             setIsModalOpen(false)

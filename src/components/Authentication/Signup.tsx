@@ -1,16 +1,17 @@
-import { useContext } from "react"
 import { Navigate } from "react-router-dom"
-import { ApplicationContext } from "../../context/Context"
 
 import { Layout, FormLayout } from "./Layouts/Layouts"
 import { Form } from "./AuthForm"
 
+import { useSelector } from "react-redux"
+import { RootState } from "../../redux/store"
+
 const Signup = () => {
-    const { appState } = useContext(ApplicationContext)
+    const user = useSelector((state: RootState) => state.user.user)
 
     return (
         <>
-            {appState.user && <Navigate replace to={"/dashboard"} />}
+            {user && <Navigate replace to={"/dashboard"} />}
             <Layout styles={true}>
                 <FormLayout>
                     <Form type={"Signup"} />

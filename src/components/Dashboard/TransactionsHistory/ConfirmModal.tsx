@@ -1,8 +1,13 @@
-import React, { useContext, useState } from "react"
+import React, { useState, useContext } from "react"
 import { GiCancel } from "react-icons/gi"
 
 import { SideStateContext } from "../../../layerContext/LayerContext"
-import { ApplicationContext } from "../../../context/Context"
+
+import { useAppDispatch } from "../../../redux/store"
+import { deleteTransactionFromDb } from "../../../firebase"
+import { deleteTransaction } from "../../../redux/reducers/transactionsReducer"
+import { useSelector } from "react-redux"
+import { RootState } from "../../../redux/store"
 
 interface ModalProps {
     isConfirmModalOpen: boolean
@@ -15,16 +20,28 @@ const ConfirmModal: React.FC<ModalProps> = ({
 }) => {
     const [isConfirmed, setIsConfirmed] = useState(false)
 
-    const { deleteTransactionHandler } = useContext(ApplicationContext)
+    const user = useSelector((state: RootState) => state.user.user)
+    const transactions = useSelector(
+        (state: RootState) => state.transactions.transactions
+    )
+
     const { transactionToBeDeletedId, setTransactionToBeDeletedId } =
         useContext(SideStateContext)
+    const dispatch = useAppDispatch()
 
     const confirmHandler = () => {
         setIsConfirmed(true)
 
         if (isConfirmed) {
             /* proceed to delete transaction */
-            deleteTransactionHandler(transactionToBeDeletedId)
+            dispatch(
+                deleteTransaction({ transactionId: transactionToBeDeletedId })
+            )
+            deleteTransactionFromDb(
+                user.id,
+                transactionToBeDeletedId,
+                transactions
+            )
             setTransactionToBeDeletedId("")
             setIsConfirmModalOpen(false)
         }

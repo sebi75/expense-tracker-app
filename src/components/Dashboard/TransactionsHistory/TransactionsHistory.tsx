@@ -1,14 +1,15 @@
-import React, { useContext, useState } from "react"
+import React, { useState } from "react"
 import { AiFillPlusCircle } from "react-icons/ai"
 
 import { HistoryTransactionsLayout, TransactionItem } from "./TransactionsList"
-
-import { ApplicationContext } from "../../../context/Context"
 
 import { HiMenuAlt4 } from "react-icons/hi"
 import { AiOutlineClose } from "react-icons/ai"
 
 import { Transaction } from "../../../interfaces/transactions"
+
+import { useSelector } from "react-redux"
+import { RootState } from "../../../redux/store"
 
 interface TransactionsHistoryProps {
     setIsModalOpen: (p: boolean) => void
@@ -17,17 +18,19 @@ interface TransactionsHistoryProps {
 const TransactionsHistory: React.FC<TransactionsHistoryProps> = ({
     setIsModalOpen,
 }) => {
-    const { appState } = useContext(ApplicationContext)
+    const transactions = useSelector(
+        (state: RootState) => state.transactions.transactions
+    )
+    const user = useSelector((state: RootState) => state.user.user)
 
     return (
         <>
             <Layout>
                 {/* AVATAR SECTION */}
                 <AvatarContainer
-                    photoURL={appState.user.photoURL}
+                    photoURL={user.photoURL}
                     displayName={
-                        appState.user.displayName ||
-                        extractDisplayName(appState.user.email)
+                        user.displayName || extractDisplayName(user.email)
                     }
                 />
 
@@ -46,7 +49,7 @@ const TransactionsHistory: React.FC<TransactionsHistoryProps> = ({
                 </QuickAdd>
 
                 {/* HISTORY TRANSACTIONS SECTION */}
-                <TransactionsList transactions={appState.transactions} />
+                <TransactionsList transactions={transactions} />
             </Layout>
 
             <PhoneNav
@@ -76,7 +79,11 @@ interface PhoneNavProps {
 
 const PhoneNav: React.FC<PhoneNavProps> = ({ styles, setIsModalOpen }) => {
     const [toggleMenu, setToggleMenu] = useState(false)
-    const { appState } = useContext(ApplicationContext)
+
+    const user = useSelector((state: RootState) => state.user.user)
+    const transactions = useSelector(
+        (state: RootState) => state.transactions.transactions
+    )
 
     return (
         <div className={styles && `${styles}`}>
@@ -107,8 +114,8 @@ const PhoneNav: React.FC<PhoneNavProps> = ({ styles, setIsModalOpen }) => {
                         />
                     </li>
                     <AvatarContainer
-                        photoURL={appState.user.photoURL}
-                        displayName={appState.user.displayName}
+                        photoURL={user.photoURL}
+                        displayName={user.displayName}
                     />
 
                     <QuickAdd>
@@ -124,7 +131,7 @@ const PhoneNav: React.FC<PhoneNavProps> = ({ styles, setIsModalOpen }) => {
                         </button>
                     </QuickAdd>
 
-                    <TransactionsList transactions={appState.transactions} />
+                    <TransactionsList transactions={transactions} />
                 </ul>
             )}
         </div>
@@ -151,10 +158,6 @@ const AvatarContainer: React.FC<AvatarContainerProps> = ({
                 <h1 className="text-white text-base font-bold">
                     Hello, {displayName}
                 </h1>
-                {/* <button className="btn btn-ghost text-white mt-3">
-                    <FiSettings size={22} className={"text-white mr-2"} />
-                    Edit profile
-                </button> */}
             </div>
         </div>
     )

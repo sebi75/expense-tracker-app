@@ -2,7 +2,9 @@ import { auth } from "../firebase"
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth"
 import { provider } from "./auth"
 
-export const authWithPopup = async (addUser: any) => {
+import { User } from "../../interfaces/user"
+
+export const authWithPopup = async () => {
     await signInWithPopup(auth, provider)
         .then((result) => {
             const credential = GoogleAuthProvider.credentialFromResult(result)
@@ -12,15 +14,14 @@ export const authWithPopup = async (addUser: any) => {
                 localStorage.setItem("token", token)
             }
 
-            const user = {
-                displayName: result.user.displayName,
-                email: result.user.email,
-                photoURL: result.user.photoURL,
+            const user: User = {
+                displayName: result.user.displayName as string,
+                email: result.user.email as string,
+                photoURL: result.user.photoURL as string,
                 id: result.user.uid,
-                authToken: token,
             }
 
-            addUser(user)
+            return user
             // ...
         })
         .catch((error) => {
@@ -30,5 +31,9 @@ export const authWithPopup = async (addUser: any) => {
             const email = error.email
 
             const credential = GoogleAuthProvider.credentialFromError(error)
+
+            return undefined
         })
+
+    return undefined as unknown as User
 }

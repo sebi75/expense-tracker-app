@@ -1,11 +1,14 @@
-import React, { useState, useEffect, useContext } from "react"
+import React, { useState, useEffect } from "react"
 import { HiMenuAlt4 } from "react-icons/hi"
 import { AiOutlineClose } from "react-icons/ai"
 
 import { Link } from "react-router-dom"
 
-/* ApplicationContext */
-import { ApplicationContext } from "../../context/Context"
+import { useSelector } from "react-redux"
+import { useAppDispatch } from "../../redux/store"
+import { clearTransactionsState } from "../../redux/reducers/transactionsReducer"
+import { clearUserState } from "../../redux/reducers/userReducer"
+import { signOutHandler } from "../../firebase"
 
 interface HeaderProps {
     aboutRef: any
@@ -82,9 +85,16 @@ interface StylesProps {
 }
 
 const AuthButtons: React.FC<StylesProps> = ({ styles }) => {
-    const { appState, signOut } = useContext(ApplicationContext)
+    const dispatch = useAppDispatch()
+    const user = useSelector((state: any) => state.user.user)
 
-    const user = appState.user
+    const signOut = () => {
+        const successfullSignout = signOutHandler()
+        if (successfullSignout) {
+            dispatch(clearUserState())
+            dispatch(clearTransactionsState())
+        }
+    }
 
     return (
         <div className={styles ? `flex ${styles} ` : "flex"}>
@@ -95,7 +105,7 @@ const AuthButtons: React.FC<StylesProps> = ({ styles }) => {
                     </button>
                     <button
                         className="btn btn-ghost text-white"
-                        onClick={() => signOut()}
+                        onClick={signOut}
                     >
                         Sign out
                     </button>

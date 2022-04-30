@@ -6,11 +6,13 @@ import {
 } from "firebase/auth"
 
 import { updateUser } from "../"
+import { User } from "../../interfaces/user"
+
+type FunctionReturn = User | undefined
 
 export const createAccountWithEmail = async (
     email: string,
     password: string,
-    addUser: any,
     setError: React.Dispatch<React.SetStateAction<string>>
 ) => {
     createUserWithEmailAndPassword(auth, email, password)
@@ -20,30 +22,30 @@ export const createAccountWithEmail = async (
 
             const displayName = extractDisplayName(user.email)
 
-            const finalUser = {
+            const finalUser: User = {
                 displayName: displayName,
-                email: user.email,
-                photoURL: user.photoURL,
+                email: user.email as string,
+                photoURL: user.photoURL as string,
                 id: user.uid,
             }
 
             updateUser(user.uid, displayName)
 
-            addUser(finalUser)
-            // ...
+            return finalUser
         })
         .catch((error) => {
             const errorCode = error.code
             const errorMessage = error.message
 
             setError("Password or email invalid")
+            return undefined
         })
+    return undefined as unknown as User
 }
 
 export const signWithEmail = async (
     email: string,
     password: string,
-    addUser: any,
     setError: React.Dispatch<React.SetStateAction<string>>
 ) => {
     signInWithEmailAndPassword(auth, email, password)
@@ -53,23 +55,27 @@ export const signWithEmail = async (
 
             const displayName = extractDisplayName(user.email)
 
-            const finalUser = {
+            const finalUser: User = {
                 displayName: displayName,
-                email: user.email,
-                photoURL: user.photoURL,
+                email: user.email as string,
+                photoURL: user.photoURL as string,
                 id: user.uid,
             }
 
             updateUser(user.uid, displayName)
 
-            addUser(finalUser)
+            return finalUser
         })
         .catch((error) => {
             const errorCode = error.code
             const errorMessage = error.message
 
             setError("Password or email invalid")
+
+            return undefined
         })
+
+    return undefined as unknown as User
 }
 
 const extractDisplayName = (email: any): string => {
