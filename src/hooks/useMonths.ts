@@ -1,6 +1,6 @@
 import { useContext } from "react"
 
-import { ApplicationContext } from "../context/Contex"
+import { ApplicationContext } from "../context/Context"
 
 const useSumsMonth = () => {
     const { appState } = useContext(ApplicationContext)

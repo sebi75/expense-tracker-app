@@ -14,7 +14,7 @@ const Hero = () => {
                     <p className="text-gray-200 text-xl mt-5">
                         Make the first steps towards financial freedom
                     </p>
-                    <button className="btn glass mr-2 bg-primary hover:bg-primary-hover border-none mt-5">
+                    <button className="btn glass mr-2 bg-primary hover:bg-primary-hover border-none mt-5 z-[0]">
                         <Link to={"/signup"}>Get started</Link>
                     </button>
                 </div>
