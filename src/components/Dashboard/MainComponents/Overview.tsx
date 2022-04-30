@@ -1,15 +1,20 @@
 /* COMPONENT IMPORTS */
 import { Stats } from "./Stats"
 import LineGraph from "../Charts/Line"
-import { useState } from "react"
 
 import useTransactionsLine from "../../../hooks/useTransactionsLine"
 import useSumsMonth from "../../../hooks/useMonths"
 
-const Overview = () => {
-    const { chartData } = useTransactionsLine()
+import { useSelector } from "react-redux"
+import { RootState } from "../../../redux/store"
 
-    const { totalIncomes, totalExpenses } = useSumsMonth()
+const Overview = () => {
+    const transactions = useSelector(
+        (state: RootState) => state.transactions.transactions
+    )
+
+    const { chartData } = useTransactionsLine(transactions)
+    const { totalIncomes, totalExpenses } = useSumsMonth(transactions)
 
     return (
         <Layout>

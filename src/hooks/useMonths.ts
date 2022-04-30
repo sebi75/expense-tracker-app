@@ -1,17 +1,13 @@
-import { useContext } from "react"
+import { Transaction } from "../interfaces/transactions"
 
-import { ApplicationContext } from "../context/Context"
-
-const useSumsMonth = () => {
-    const { appState } = useContext(ApplicationContext)
-
+const useSumsMonth = (transactions: Transaction[]) => {
     const firstMonthDay = getFirstMonthDay()
 
-    const validIncome = appState.transactions.filter(
+    const validIncome = transactions.filter(
         (t) => t.type == "income" && t.fullDate.seconds > firstMonthDay
     )
 
-    const validExpense = appState.transactions.filter(
+    const validExpense = transactions.filter(
         (t) => t.type == "expense" && t.fullDate.seconds > firstMonthDay
     )
 

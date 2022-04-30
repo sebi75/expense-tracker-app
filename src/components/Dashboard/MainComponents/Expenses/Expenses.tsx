@@ -1,14 +1,15 @@
-import React, { useState, useContext, useEffect } from "react"
+import React, { useState, useEffect } from "react"
 import { Layout } from "../Overview"
 import { Stats } from "../Stats"
 
 import { TransactionItem } from "../../TransactionsHistory/TransactionsList"
 
 import DoughnutChart from "../../Charts/Doughnut"
-import ProgressBar from "../../../../utils/progress-bar"
 
 import { Transaction } from "../../../../interfaces/transactions"
-import { ApplicationContext } from "../../../../context/Context"
+
+import { useSelector } from "react-redux"
+import { RootState } from "../../../../redux/store"
 
 import useTransactions from "../../../../hooks/useTransactions"
 import useSumsMonth from "../../../../hooks/useMonths"
@@ -18,16 +19,17 @@ const Expenses: React.FC = () => {
         Transaction[]
     >([])
 
-    const { appState } = useContext(ApplicationContext)
-    const { totalIncomes, totalExpenses } = useSumsMonth()
+    const transactions = useSelector(
+        (state: RootState) => state.transactions.transactions
+    )
 
-    const { chartData } = useTransactions("expense")
+    const { totalIncomes, totalExpenses } = useSumsMonth(transactions)
+
+    const { chartData } = useTransactions("expense", transactions)
 
     useEffect(() => {
-        setExpensesTransactions(
-            filterExpensesTransactions(appState.transactions)
-        )
-    }, [appState.transactions])
+        setExpensesTransactions(filterExpensesTransactions(transactions))
+    }, [transactions])
 
     return (
         <Layout>

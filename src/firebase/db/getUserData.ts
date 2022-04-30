@@ -1,4 +1,5 @@
 import { doc, getDoc, setDoc } from "firebase/firestore"
+import { Transaction } from "../../interfaces/transactions"
 
 import { db } from "../firebase"
 
@@ -12,7 +13,7 @@ const defaultUsersData = {
     },
 }
 
-export const getUserData = async (uid: any, populateFromDb: any) => {
+export const getUserData = async (uid: any) => {
     const docRef = doc(db, "users", uid)
 
     const docSnap = await getDoc(docRef)
@@ -23,8 +24,9 @@ export const getUserData = async (uid: any, populateFromDb: any) => {
         const transactions = docData.transactions.reverse()
 
         /* fill state with users transactions */
-        populateFromDb(transactions)
+        return transactions
     } else {
         const newDoc = await setDoc(doc(db, "users", uid), defaultUsersData)
+        return defaultUsersData.transactions as unknown as Transaction[]
     }
 }

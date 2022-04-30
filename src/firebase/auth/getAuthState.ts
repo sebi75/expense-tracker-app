@@ -1,7 +1,7 @@
 import { auth } from "../firebase"
 import { User } from "../../interfaces/user"
 
-export const getAuthStateHandler = (addUser: any) => {
+export const getAuthStateHandler = (): User => {
     auth.onAuthStateChanged((user) => {
         if (user) {
             user.getIdTokenResult().then((idTokenResult) => {
@@ -15,7 +15,9 @@ export const getAuthStateHandler = (addUser: any) => {
                 id: user.uid,
             }
 
-            addUser(finalUser)
+            return finalUser
         }
     })
+
+    return undefined as unknown as User
 }

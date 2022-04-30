@@ -1,5 +1,4 @@
-import { useContext } from "react"
-import { ApplicationContext } from "../context/Context"
+import { Transaction } from "../interfaces/transactions"
 
 import {
     incomeCategories,
@@ -7,14 +6,10 @@ import {
     resetCategories,
 } from "../constants/categories"
 
-const useTransactions = (title: string) => {
+const useTransactions = (title: string, transactions: Transaction[]) => {
     resetCategories()
 
-    const { appState } = useContext(ApplicationContext)
-
-    const selectedCategories = appState.transactions.filter(
-        (t) => t.type === title
-    )
+    const selectedCategories = transactions.filter((t) => t.type === title)
 
     const total = selectedCategories?.reduce(
         (acc, currVal) => (acc += Number(currVal.amount)),

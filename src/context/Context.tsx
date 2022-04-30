@@ -44,7 +44,6 @@ interface ApplicationContextInterface {
         password: string,
         setError: any
     ) => void
-    getAuthState: () => void
     signOut: () => void
     appState: AppState
     issuccessfullyAdded: boolean
@@ -91,10 +90,6 @@ export const ContextProvider: React.FC = ({ children }) => {
         await signWithEmail(email, password, addUser, setError)
     }
 
-    const getAuthState = () => {
-        getAuthStateHandler(addUser)
-    }
-
     const signOut = () => {
         signOutHandler(addUser)
         dispatch(clearState())
@@ -123,7 +118,6 @@ export const ContextProvider: React.FC = ({ children }) => {
         signWithEmailHandler,
         signWithGooglePopup,
         populateFromDb,
-        getAuthState,
         signOut,
         addDocF,
         issuccessfullyAdded,

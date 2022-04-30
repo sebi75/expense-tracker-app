@@ -1,17 +1,13 @@
-import { useContext } from "react"
-import { ApplicationContext } from "../context/Context"
+import { Transaction } from "../interfaces/transactions"
 
-const useTransactionsLine = () => {
+const useTransactionsLine = (transactions: Transaction[]) => {
     resetCategories()
 
-    const { appState } = useContext(ApplicationContext)
     const nextSunday = getNextSunday()
     const lastValidDay = getCurrentLastWeek()
 
     /* income selectedCategories */
-    const incomeCategories = appState.transactions.filter(
-        (t) => t.type === "income"
-    )
+    const incomeCategories = transactions.filter((t) => t.type === "income")
 
     /* filter transactions for valid ones between last monday and next sunday */
     const filteredByValidityIncome = incomeCategories.filter(
@@ -35,9 +31,7 @@ const useTransactionsLine = () => {
     */
 
     /* income selectedCategories */
-    const expenseCategories = appState.transactions.filter(
-        (t) => t.type === "expense"
-    )
+    const expenseCategories = transactions.filter((t) => t.type === "expense")
 
     /* filter transactions for valid ones between last monday and next sunday */
     const filteredByValidityExpense = expenseCategories.filter(

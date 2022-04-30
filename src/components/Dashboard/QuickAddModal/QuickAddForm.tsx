@@ -12,6 +12,9 @@ import { ApplicationContext } from "../../../context/Context"
 import { idGen } from "../../../utils/idGen"
 import formatDate from "../../../utils/formatDate"
 
+import { useAppDispatch } from "../../../redux/store"
+import { addTransaction } from "../../../redux/reducers/transactionsReducer"
+
 const initialState: Transaction = {
     id: idGen(),
     amount: 0,
@@ -27,9 +30,10 @@ interface QuickAddFormProps {
 
 const QuickAddForm: React.FC<QuickAddFormProps> = ({ setIsModalOpen }) => {
     const [formData, setFormData] = useState<Transaction>(initialState)
-    const { addTransactionHandler, setIsSuccessfullyAdded } =
-        useContext(ApplicationContext)
+    const { setIsSuccessfullyAdded } = useContext(ApplicationContext)
     const [error, setError] = useState(false)
+
+    const dispatch = useAppDispatch()
 
     const createTransaction = () => {
         const { category, type, amount, date } = formData
@@ -44,21 +48,16 @@ const QuickAddForm: React.FC<QuickAddFormProps> = ({ setIsModalOpen }) => {
                 date: date,
                 fullDate: new Date(dateObject),
             }
-
-            addTransactionHandler(transaction)
+            dispatch(addTransaction(transaction))
 
             setFormData(initialState)
-
             setIsModalOpen(false)
-
             setIsSuccessfullyAdded(true)
-
             setTimeout(() => {
                 setIsSuccessfullyAdded(false)
             }, 2000)
         } else {
             setError(true)
-
             setTimeout(() => {
                 setError(false)
             }, 2000)

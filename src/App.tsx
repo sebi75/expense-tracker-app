@@ -12,17 +12,31 @@ import Signup from "./components/Authentication/Signup"
 import { ApplicationContext } from "./context/Context"
 
 import { getUserData } from "./firebase"
+import { getAuthStateHandler } from "./firebase"
+
+import { useAppDispatch } from "./redux/store"
+
+import { addUser } from "./redux/reducers/userReducer"
+import { populateTransactionsFromDb } from "./redux/reducers/transactionsReducer"
 
 const App: React.FC = () => {
-    const { getAuthState, appState, populateFromDb } =
-        useContext(ApplicationContext)
+    const { appState } = useContext(ApplicationContext)
+    const dispatch = useAppDispatch()
+
+    const getTransactionsFromDb = async () => {
+        const transactions = await getUserData(appState.user.id)
+        dispatch(populateTransactionsFromDb(transactions))
+    }
 
     useEffect(() => {
         if (!appState.user) {
-            getAuthState()
+            const user = getAuthStateHandler()
+            if (user != undefined) {
+                dispatch(addUser(user))
+            }
         }
         if (appState.user) {
-            getUserData(appState.user.id, populateFromDb)
+            getTransactionsFromDb()
         }
     }, [appState.user])
 
