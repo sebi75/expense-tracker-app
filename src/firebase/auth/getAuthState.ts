@@ -1,23 +1,25 @@
 import { auth } from "../firebase"
 import { User } from "../../interfaces/user"
 
-export const getAuthStateHandler = (): User => {
+import { addUser } from "../../redux/reducers/userReducer"
+
+export const getAuthStateHandler = async (dispatch: any) => {
+    let returnUser = undefined
     auth.onAuthStateChanged((user) => {
         if (user) {
-            user.getIdTokenResult().then((idTokenResult) => {
-                const token = idTokenResult
-            })
-
             const finalUser = {
                 displayName: user.displayName,
                 email: user.email,
                 photoURL: user.photoURL,
                 id: user.uid,
             }
+            console.log(finalUser)
 
-            return finalUser
+            dispatch(addUser(finalUser as User))
+        } else {
+            returnUser = undefined
         }
     })
 
-    return undefined as unknown as User
+    return returnUser as unknown as User
 }

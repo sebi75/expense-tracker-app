@@ -12,8 +12,10 @@ const Overview = () => {
     const transactions = useSelector(
         (state: RootState) => state.transactions.transactions
     )
+    console.log("rerendered")
 
     const { chartData } = useTransactionsLine(transactions)
+
     const { totalIncomes, totalExpenses } = useSumsMonth(transactions)
 
     return (

@@ -5,6 +5,7 @@ import { provider } from "./auth"
 import { User } from "../../interfaces/user"
 
 export const authWithPopup = async () => {
+    let finalUser = undefined
     await signInWithPopup(auth, provider)
         .then((result) => {
             const credential = GoogleAuthProvider.credentialFromResult(result)
@@ -21,7 +22,7 @@ export const authWithPopup = async () => {
                 id: result.user.uid,
             }
 
-            return user
+            finalUser = user
             // ...
         })
         .catch((error) => {
@@ -31,9 +32,6 @@ export const authWithPopup = async () => {
             const email = error.email
 
             const credential = GoogleAuthProvider.credentialFromError(error)
-
-            return undefined
         })
-
-    return undefined as unknown as User
+    return finalUser
 }

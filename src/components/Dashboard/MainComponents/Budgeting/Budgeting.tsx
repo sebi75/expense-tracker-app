@@ -4,8 +4,14 @@ import { InterLayout } from "../Expenses/Expenses"
 import useSumsMonth from "../../../../hooks/useMonths"
 import { Stats } from "../Stats"
 
+import { useSelector } from "react-redux"
+import { RootState } from "../../../../redux/store"
+
 const Budgeting: React.FC = () => {
-    const { totalIncomes, totalExpenses } = useSumsMonth()
+    const transactions = useSelector(
+        (state: RootState) => state.transactions.transactions
+    )
+    const { totalIncomes, totalExpenses } = useSumsMonth(transactions)
     return (
         <Layout>
             <div className="bg-white h-screen w-full">

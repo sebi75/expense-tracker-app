@@ -54,6 +54,7 @@ export const Form: React.FC<FormProps> = ({ type }) => {
             setIsLoading(true)
             const user = await signWithEmail(email, password, setError)
             if (user) {
+                console.log("test")
                 setIsLoading(false)
                 dispatch(addUser(user))
             }
@@ -64,8 +65,11 @@ export const Form: React.FC<FormProps> = ({ type }) => {
 
     const authWithPopupHandler = async () => {
         setIsLoading(true)
+        console.log("hellloooooo")
         const user = await authWithPopup()
-        if (user) {
+        console.log("passed this with user: ")
+        console.log(user)
+        if (user != undefined) {
             setIsLoading(false)
             dispatch(addUser(user))
         }

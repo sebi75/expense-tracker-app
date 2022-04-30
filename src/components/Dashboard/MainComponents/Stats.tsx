@@ -1,6 +1,5 @@
-import React, { useContext } from "react"
-
-import { ApplicationContext } from "../../../context/Context"
+import { useSelector } from "react-redux"
+import { RootState } from "../../../redux/store"
 
 interface StatsProps {
     totalIncomes: number
@@ -11,7 +10,7 @@ export const Stats: React.FC<StatsProps> = ({
     totalIncomes,
     totalExpenses,
 }) => {
-    const { appState } = useContext(ApplicationContext)
+    const user = useSelector((state: RootState) => state.user.user)
 
     return (
         <div className="w-full shadow stats flex flex-col lg:flex-row">
@@ -39,9 +38,9 @@ export const Stats: React.FC<StatsProps> = ({
                 <div className="stat-figure text-info">
                     <div className="avatar online">
                         <div className="w-16 h-16 p-1 mask mask-squircle bg-base-100">
-                            {appState.user.photoURL ? (
+                            {user.photoURL ? (
                                 <img
-                                    src={appState.user.photoURL}
+                                    src={user.photoURL}
                                     alt="User Avatar"
                                     className="mask mask-squircle"
                                 />
@@ -52,7 +51,7 @@ export const Stats: React.FC<StatsProps> = ({
                     </div>
                 </div>
                 <div className="stat-value text-2xl lg:text-[1.7rem] text-black">
-                    {appState.user.displayName}
+                    {user.displayName}
                 </div>
                 <div className="stat-title"></div>
                 <div className="stat-desc text-info">Free Beta Plan</div>

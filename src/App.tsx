@@ -1,15 +1,13 @@
 import { Routes, Route, Navigate } from "react-router-dom"
 
 import { PrivateRoute } from "./routes/PrivateRoute"
-import React, { useEffect, useContext } from "react"
+import React, { useEffect } from "react"
 
 /* IMPORT APP COMPONENTS */
 import Home from "./components/HomePage/Home"
 import Dashboard from "./components/Dashboard/Dashboard"
 import Login from "./components/Authentication/Login"
 import Signup from "./components/Authentication/Signup"
-
-import { ApplicationContext } from "./context/Context"
 
 import { getUserData } from "./firebase"
 import { getAuthStateHandler } from "./firebase"
@@ -18,27 +16,33 @@ import { useAppDispatch } from "./redux/store"
 
 import { addUser } from "./redux/reducers/userReducer"
 import { populateTransactionsFromDb } from "./redux/reducers/transactionsReducer"
+import { useSelector } from "react-redux"
+import { RootState } from "./redux/store"
+import { User } from "./interfaces/user"
 
 const App: React.FC = () => {
-    const { appState } = useContext(ApplicationContext)
     const dispatch = useAppDispatch()
 
+    const user = useSelector((state: RootState) => state.user.user)
+
     const getTransactionsFromDb = async () => {
-        const transactions = await getUserData(appState.user.id)
+        const transactions = await getUserData(user.id)
         dispatch(populateTransactionsFromDb(transactions))
     }
 
-    useEffect(() => {
-        if (!appState.user) {
-            const user = getAuthStateHandler()
-            if (user != undefined) {
-                dispatch(addUser(user))
-            }
+    const getCurrentUser = async () => {
+        console.log(user)
+        if (!user) {
+            const user = await getAuthStateHandler(dispatch)
         }
-        if (appState.user) {
+        if (user) {
             getTransactionsFromDb()
         }
-    }, [appState.user])
+    }
+
+    useEffect(() => {
+        getCurrentUser()
+    }, [user])
 
     return (
         <Routes>
