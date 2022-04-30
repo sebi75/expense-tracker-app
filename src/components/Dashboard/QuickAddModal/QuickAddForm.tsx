@@ -7,7 +7,7 @@ import {
     expenseCategories,
 } from "../../../constants/categories"
 import { Transaction } from "../../../interfaces/transactions"
-import { ApplicationContext } from "../../../context/Contex"
+import { ApplicationContext } from "../../../context/Context"
 
 import { idGen } from "../../../utils/idGen"
 import formatDate from "../../../utils/formatDate"

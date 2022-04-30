@@ -8,7 +8,7 @@ import DoughnutChart from "../../Charts/Doughnut"
 import ProgressBar from "../../../../utils/progress-bar"
 
 import { Transaction } from "../../../../interfaces/transactions"
-import { ApplicationContext } from "../../../../context/Contex"
+import { ApplicationContext } from "../../../../context/Context"
 
 import useTransactions from "../../../../hooks/useTransactions"
 import useSumsMonth from "../../../../hooks/useMonths"

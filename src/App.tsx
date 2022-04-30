@@ -9,7 +9,7 @@ import Dashboard from "./components/Dashboard/Dashboard"
 import Login from "./components/Authentication/Login"
 import Signup from "./components/Authentication/Signup"
 
-import { ApplicationContext } from "./context/Contex"
+import { ApplicationContext } from "./context/Context"
 
 import { getUserData } from "./firebase"
 

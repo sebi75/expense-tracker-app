@@ -1,6 +1,6 @@
 import React, { useContext } from "react"
 import { Navigate } from "react-router-dom"
-import { ApplicationContext } from "../../context/Contex"
+import { ApplicationContext } from "../../context/Context"
 
 import { Layout, FormLayout } from "./Layouts/Layouts"
 import { Form } from "./AuthForm"

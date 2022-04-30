@@ -1,5 +1,5 @@
 import { useContext } from "react"
-import { ApplicationContext } from "../context/Contex"
+import { ApplicationContext } from "../context/Context"
 
 const useTransactionsLine = () => {
     resetCategories()

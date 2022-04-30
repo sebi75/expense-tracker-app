@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react"
 import { GiCancel } from "react-icons/gi"
 
 import { SideStateContext } from "../../../layerContext/LayerContext"
-import { ApplicationContext } from "../../../context/Contex"
+import { ApplicationContext } from "../../../context/Context"
 
 interface ModalProps {
     isConfirmModalOpen: boolean

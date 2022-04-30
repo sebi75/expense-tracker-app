@@ -1,7 +1,6 @@
-import { useState, useContext } from "react"
+import { useContext } from "react"
 import { MdAttachMoney } from "react-icons/md"
 import { AiFillDelete } from "react-icons/ai"
-import ConfirmModal from "./ConfirmModal"
 
 import { SideStateContext } from "../../../layerContext/LayerContext"
 

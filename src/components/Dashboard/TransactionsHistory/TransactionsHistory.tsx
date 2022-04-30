@@ -3,7 +3,7 @@ import { AiFillPlusCircle } from "react-icons/ai"
 
 import { HistoryTransactionsLayout, TransactionItem } from "./TransactionsList"
 
-import { ApplicationContext } from "../../../context/Contex"
+import { ApplicationContext } from "../../../context/Context"
 
 import { HiMenuAlt4 } from "react-icons/hi"
 import { AiOutlineClose } from "react-icons/ai"

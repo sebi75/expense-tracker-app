@@ -60,7 +60,7 @@ export const ApplicationContext = createContext<ApplicationContextInterface>(
     {} as ApplicationContextInterface
 )
 
-export const Provider: React.FC = ({ children }) => {
+export const ContextProvider: React.FC = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, initialAppState)
     const [issuccessfullyAdded, setIsSuccessfullyAdded] =
         useState<boolean>(false)

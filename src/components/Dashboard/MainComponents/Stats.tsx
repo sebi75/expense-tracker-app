@@ -1,6 +1,6 @@
 import React, { useContext } from "react"
 
-import { ApplicationContext } from "../../../context/Contex"
+import { ApplicationContext } from "../../../context/Context"
 
 interface StatsProps {
     totalIncomes: number

@@ -5,7 +5,7 @@ import { AiOutlineClose } from "react-icons/ai"
 import { Link } from "react-router-dom"
 
 /* ApplicationContext */
-import { ApplicationContext } from "../../context/Contex"
+import { ApplicationContext } from "../../context/Context"
 
 interface HeaderProps {
     aboutRef: any
@@ -144,7 +144,7 @@ const PhoneNav: React.FC<StylesProps> = ({ styles }) => {
                             onClick={() => setToggleMenu(false)}
                         />
                     </li>
-                    <NavItem title={"About"} styles={"m-2 text-white"} />
+                    {/* <NavItem title={"About"} styles={"m-2 text-white"} /> */}
                     <AuthButtons styles={"mt-2 flex flex-col xl:flex-row"} />
                 </ul>
             )}
@@ -182,8 +182,8 @@ const Layout: React.FC<LayoutProps> = ({ children, styles }) => {
         <div
             className={
                 styles
-                    ? `flex justify-around items-center h-20 w-full fixed ${styles}`
-                    : "flex justify-around items-center h-20 w-full fixed"
+                    ? `flex justify-around items-center h-20 w-full fixed ${styles} z-[100]`
+                    : "flex justify-around items-center h-20 w-full fixed z-[100]"
             }
         >
             {children}

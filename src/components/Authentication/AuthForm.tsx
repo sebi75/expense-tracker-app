@@ -1,5 +1,5 @@
 import { useContext, useState } from "react"
-import { ApplicationContext } from "../../context/Contex"
+import { ApplicationContext } from "../../context/Context"
 
 import { Link } from "react-router-dom"
 
